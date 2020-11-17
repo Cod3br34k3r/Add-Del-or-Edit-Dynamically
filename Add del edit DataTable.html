@@ -22,34 +22,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!--                <tr>-->
-                <!--                    <td class="colname-1">Zain</td>-->
-                <!--                    <td class="colpost-1">CEO</td>-->
-                <!--                    <td class="colarea-1">Samnabad</td>-->
-                <!--                    <td>-->
-                <!--                        <button class="btn-del btn-danger btn-sm">Del</button>-->
-                <!--                        <button class="btn-edit btn-info btn-sm">Edit</button>-->
-                <!--                    </td>-->
-                <!--                </tr>-->
-                <!--                <tr>-->
-                <!--                    <td class="colname-2">Hammad</td>-->
-                <!--                    <td class="colpost-2">CTO</td>-->
-                <!--                    <td class="colarea-2">Gulshan Ravi</td>-->
-                <!--                    <td>-->
-                <!--                        <button class="btn-del btn-danger btn-sm">Del</button>-->
-                <!--                        <button class="btn-edit btn-info btn-sm">Edit</button>-->
-                <!--                    </td>-->
-
-                <!--                </tr>-->
-                <!--                <tr>-->
-                <!--                    <td class="colname-3">Hamid</td>-->
-                <!--                    <td class="colpost-3">Manager</td>-->
-                <!--                    <td class="colarea-3">Iqbal Town</td>-->
-                <!--                    <td>-->
-                <!--                        <button class="btn-del btn-danger btn-sm">Del</button>-->
-                <!--                        <button class="btn-edit btn-info btn-sm">Edit</button>-->
-                <!--                    </td>-->
-                <!--                </tr>-->
                 <tfoot>
                 <tr>
                     <th>Name</th>
@@ -114,9 +86,7 @@
                 `<span class="colarea-${listnum}">${$("#list-office").val()}</span>`,
                 `<button class="btn-del btn-danger btn-sm">Del</button> <button data-number="${listnum}" class="btn-edit btn-info btn-sm">Edit</button>`
             ]).draw();
-
         })
-
         $(document).on("click", ".btn-del", function () {
 
             const swalWithBootstrapButtons = Swal.mixin({
@@ -126,7 +96,6 @@
                 },
                 buttonsStyling: false
             })
-
             swalWithBootstrapButtons.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -151,12 +120,9 @@
                         'Cancelled',
                         'Your imaginary file is safe :)',
                         'error'
-
                     )
                 }
             })
-
-
         })
 
         $(document).on("click", ".btn-edit", function () {
@@ -166,9 +132,6 @@
             $("#list-post").val($(".colpost-" + colnum).html())
             $("#list-office").val($(".colarea-" + colnum).html())
         })
-
-
-
         $("#btn-ce").click(function () {
             var colnum = $(this).data("num")
             $(".colname-" + colnum).html($("#list-name").val())
