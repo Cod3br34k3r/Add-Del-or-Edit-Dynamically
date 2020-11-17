@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="text-center">Data Table</h1>
+            <table id="myTable">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Post</th>
+                    <th>Office</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--                <tr>-->
+                <!--                    <td class="colname-1">Zain</td>-->
+                <!--                    <td class="colpost-1">CEO</td>-->
+                <!--                    <td class="colarea-1">Samnabad</td>-->
+                <!--                    <td>-->
+                <!--                        <button class="btn-del btn-danger btn-sm">Del</button>-->
+                <!--                        <button class="btn-edit btn-info btn-sm">Edit</button>-->
+                <!--                    </td>-->
+                <!--                </tr>-->
+                <!--                <tr>-->
+                <!--                    <td class="colname-2">Hammad</td>-->
+                <!--                    <td class="colpost-2">CTO</td>-->
+                <!--                    <td class="colarea-2">Gulshan Ravi</td>-->
+                <!--                    <td>-->
+                <!--                        <button class="btn-del btn-danger btn-sm">Del</button>-->
+                <!--                        <button class="btn-edit btn-info btn-sm">Edit</button>-->
+                <!--                    </td>-->
+
+                <!--                </tr>-->
+                <!--                <tr>-->
+                <!--                    <td class="colname-3">Hamid</td>-->
+                <!--                    <td class="colpost-3">Manager</td>-->
+                <!--                    <td class="colarea-3">Iqbal Town</td>-->
+                <!--                    <td>-->
+                <!--                        <button class="btn-del btn-danger btn-sm">Del</button>-->
+                <!--                        <button class="btn-edit btn-info btn-sm">Edit</button>-->
+                <!--                    </td>-->
+                <!--                </tr>-->
+                <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Post</th>
+                    <th>Office</th>
+                    <th>Action</th>
+                </tr>
+                </tfoot>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 p-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="h2 text-gray-800 text-center">Enter your Data</h1>
+                </div>
+                <div class="col-md-12">
+                    <form class="user" id="check">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label>Name</label>
+                                <input type="text" class="form-control " id="list-name"
+                                       placeholder="Enter Name">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Position</label>
+                                <input type="text" class="form-control " id="list-post"
+                                       placeholder="Enter Position">
+                            </div>
+                            <div class="col-md-12">
+                                <label>Office Name</label>
+                                <input type="text" class="form-control " id="list-office"
+                                       placeholder="Enter Office Name">
+                            </div>
+
+                            <div class="col-md-12 text-center ">
+                                <button type="button" class="btn btn-primary" id="btn">Add</button>
+                                <button type="button" class="btn  btn-primary" id="btn-ce">Confirm Edit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+    $(document).ready(function () {
+        var dt = $("#myTable").DataTable();
+        var listnum = 0
+        $("#btn").click(function () {
+            listnum++;
+            dt.row.add([
+                `<span class="colname-${listnum}">${$("#list-name").val()}</span>`,
+                `<span class="colpost-${listnum}">${$("#list-post").val()}</span>`,
+                `<span class="colarea-${listnum}">${$("#list-office").val()}</span>`,
+                `<button class="btn-del btn-danger btn-sm">Del</button> <button data-number="${listnum}" class="btn-edit btn-info btn-sm">Edit</button>`
+            ]).draw();
+
+        })
+
+        $(document).on("click", ".btn-del", function () {
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success',
+                    dt.row($(this).parents('tr')).remove().draw()
+                    )
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Your imaginary file is safe :)',
+                        'error'
+
+                    )
+                }
+            })
+
+
+        })
+
+        $(document).on("click", ".btn-edit", function () {
+            var colnum = $(this).data("number")
+            $("#btn-ce").data("num",colnum)
+            $("#list-name").val($(".colname-" + colnum).html())
+            $("#list-post").val($(".colpost-" + colnum).html())
+            $("#list-office").val($(".colarea-" + colnum).html())
+        })
+
+
+
+        $("#btn-ce").click(function () {
+            var colnum = $(this).data("num")
+            $(".colname-" + colnum).html($("#list-name").val())
+            $(".colpost-" + colnum).html($("#list-post").val())
+            $(".colarea-" + colnum).html($("#list-office").val())
+        })
+    })
+
+
+
+</script>
+</body>
+</html>
